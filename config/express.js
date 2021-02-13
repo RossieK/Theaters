@@ -7,4 +7,7 @@ module.exports = (app) => {
         extname: 'hbs'
     }));
     app.set('view engine', 'hbs');
+
+    //Static files
+    app.use(express.static('public'));
 }
