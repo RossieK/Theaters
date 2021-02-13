@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const handlebars = require('express-handlebars');
 
@@ -13,4 +14,7 @@ module.exports = (app) => {
 
     //Body parser
     app.use(express.urlencoded({ extended: true }));
+
+    //Cookie parser
+    app.use(cookieParser());
 }
