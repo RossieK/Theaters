@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const userService = require('../services/userService');
 const { cookie_name } = require('../config/config');
+const registerValidator = require('../middlewares/userMiddlewareValidator');
+const formValidator = require('../middlewares/formValidator');
 
 const router = Router();
 
@@ -8,7 +10,15 @@ router.get('/register', (req, res) => {
     res.render('register', { title: 'Register page' });
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', registerValidator, (req, res) => {
+
+    const formValidations = formValidator(req);
+
+    if (!formValidations.isValid) {
+        res.render('register', {...formValidations.options, title: 'Register page' });
+        return;
+    }
+
     const { username, password, rePassword } = req.body;
 
     userService.register({ username, password })
@@ -17,7 +27,9 @@ router.post('/register', (req, res) => {
             res.cookie(cookie_name, token);
             res.redirect('/');
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            res.render('register', {...formValidations.options, title: 'Register page', message: err.message });
+        });
 });
 
 router.get('/login', (req, res) => {

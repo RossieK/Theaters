@@ -6,6 +6,12 @@ const { salt_rounds, secret } = require('../config/config');
 async function register(data) {
     const { username, password, rePassword } = {...data };
 
+    let foundUser = await User.findOne({ username });
+
+    if (foundUser) {
+        throw new Error('The given username is already in use...');
+    }
+
     let salt = await bcrypt.genSalt(salt_rounds);
     let hash = await bcrypt.hash(password, salt);
 
