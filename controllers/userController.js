@@ -12,7 +12,11 @@ router.post('/register', (req, res) => {
     const { username, password, rePassword } = req.body;
 
     userService.register({ username, password })
-        .then(() => res.redirect('/user/login'))
+        .then(async(user) => {
+            let token = await userService.loginUponRegistration(user);
+            res.cookie(cookie_name, token);
+            res.redirect('/');
+        })
         .catch(err => console.error(err));
 });
 
