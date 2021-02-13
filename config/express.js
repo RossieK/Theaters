@@ -10,4 +10,7 @@ module.exports = (app) => {
 
     //Static files
     app.use(express.static('public'));
+
+    //Body parser
+    app.use(express.urlencoded({ extended: true }));
 }
