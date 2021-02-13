@@ -44,7 +44,7 @@ router.post('/login', async(req, res) => {
         res.cookie(cookie_name, token);
         res.redirect('/');
     } catch (error) {
-        console.error(error);
+        res.render('login', { oldInput: {...req.body }, message: error.message, title: 'Login page' });
     }
 });
 
