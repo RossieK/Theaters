@@ -1,12 +1,14 @@
 const { port } = require('./config/config');
 const express = require('express');
+const expressConfig = require('./config/express');
 
 //Initialize App
 const app = express();
+expressConfig(app);
 
 //Routes
 app.get('/', (req, res) => {
-    res.send('Working!').end();
+    res.render('home', { layout: false });
 })
 
 //Server initialization
