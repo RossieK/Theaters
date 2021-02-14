@@ -2,15 +2,15 @@
     <h1>Create Theater</h1>
     <div>
         <label for="title">Theater Title:</label>
-        <input type="text" placeholder="Theater name" name="title" value="">
+        <input type="text" placeholder="Theater name" name="title" value="{{oldInput.title}}">
     </div>
     <div>
         <label for="description">Theater Description:</label>
-        <textarea placeholder="Description" name="description"></textarea>
+        <textarea placeholder="Description" name="description">{{oldInput.description}}</textarea>
     </div>
     <div>
         <label for="imageUrl">Image url:</label>
-        <input type="text" placeholder="Image Url" name="imageUrl" value="">
+        <input type="text" placeholder="Image Url" name="imageUrl" value="{{oldInput.imageUrl}}">
     </div>
     <div class="check">
         <input type="checkbox" name="isPublic" id="check-box">
