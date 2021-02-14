@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const isLogged = require('../middlewares/isLogged');
 const playService = require('../services/playService');
+const userService = require('../services/userService');
 const formValidator = require('../middlewares/formValidator');
 
 const router = Router();
@@ -52,7 +53,10 @@ router.get('/:id/details', isLogged, (req, res) => {
 
 router.get('/:id/like', isLogged, (req, res) => {
     playService.likeOne(req.params.id, req.user._id)
-        .then(() => res.redirect(`/plays/${req.params.id}/details`))
+        .then(async() => {
+            await userService.likePlay(req.params.id, req.user._id);
+            res.redirect(`/plays/${req.params.id}/details`)
+        })
         .catch(err => {
             console.error(err);
             res.status(500).json('Something went wrong on our side. We\'re sorry!');

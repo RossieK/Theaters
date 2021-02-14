@@ -45,9 +45,16 @@ function getOne(id) {
     return User.findOne({ _id: id }, { username: 1 }).lean();
 }
 
+async function likePlay(playId, userId) {
+    let user = await User.findOne({ _id: userId });
+    user.likedPlays.push(playId);
+    return User.updateOne({ _id: userId }, { likedPlays: user.likedPlays });
+}
+
 module.exports = {
     register,
     login,
     loginUponRegistration,
-    getOne
+    getOne,
+    likePlay
 }
