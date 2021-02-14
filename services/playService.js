@@ -17,10 +17,18 @@ function getOne(id) {
     return Play.findOne({ _id: id }).populate('creator').populate('usersLiked').lean();
 }
 
+function getOneWithoutDetails(id) {
+    return Play.findOne({ _id: id }).lean();
+}
+
 async function likeOne(id, user) {
     let play = await Play.findOne({ _id: id });
     play.usersLiked.push(user);
     return Play.updateOne({ _id: id }, { usersLiked: play.usersLiked });
+}
+
+function updateOne(id, data) {
+    return Play.updateOne({ _id: id }, {...data });
 }
 
 module.exports = {
@@ -28,5 +36,7 @@ module.exports = {
     getAll,
     getPublic,
     getOne,
-    likeOne
+    getOneWithoutDetails,
+    likeOne,
+    updateOne
 }

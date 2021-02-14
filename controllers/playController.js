@@ -3,6 +3,7 @@ const isLogged = require('../middlewares/isLogged');
 const playService = require('../services/playService');
 const userService = require('../services/userService');
 const formValidator = require('../middlewares/formValidator');
+const playMiddlewareValidator = require('../middlewares/playMiddlewareValidator');
 
 const router = Router();
 
@@ -56,6 +57,44 @@ router.get('/:id/like', isLogged, (req, res) => {
         .then(async() => {
             await userService.likePlay(req.params.id, req.user._id);
             res.redirect(`/plays/${req.params.id}/details`)
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json('Something went wrong on our side. We\'re sorry!');
+        });
+});
+
+router.get('/:id/edit', isLogged, (req, res) => {
+    playService.getOneWithoutDetails(req.params.id)
+        .then(play => {
+            let isPublicChecked = false;
+            if (play.isPublic) {
+                isPublicChecked = true;
+            }
+            res.render('edit', { title: 'Edit play', play, isPublicChecked })
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json('Something went wrong on our side. We\'re sorry!');
+        });
+});
+
+router.post('/:id/edit', isLogged, playMiddlewareValidator, (req, res) => {
+    const formValidations = formValidator(req);
+
+    if (!formValidations.isValid) {
+        res.redirect('edit');
+    }
+
+    if (req.body.isPublic) {
+        req.body.isPublic = true;
+    } else {
+        req.body.isPublic = false;
+    }
+
+    playService.updateOne(req.params.id, req.body)
+        .then(() => {
+            res.redirect(`/plays/${req.params.id}/details`);
         })
         .catch(err => {
             console.error(err);
