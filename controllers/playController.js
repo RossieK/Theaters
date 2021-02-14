@@ -11,11 +11,12 @@ router.get('/create', isLogged, (req, res) => {
     res.render('create', { title: 'Create play' });
 });
 
-router.post('/create', isLogged, (req, res) => {
+router.post('/create', isLogged, playMiddlewareValidator, (req, res) => {
     const formaValidations = formValidator(req);
 
     if (!formaValidations.isValid) {
         res.render('create', {...formaValidations.options, title: 'Create play' });
+        return;
     }
 
     if (req.body.isPublic) {
@@ -83,7 +84,8 @@ router.post('/:id/edit', isLogged, playMiddlewareValidator, (req, res) => {
     const formValidations = formValidator(req);
 
     if (!formValidations.isValid) {
-        res.redirect('edit');
+        res.render('edit', { message: formValidations.options.message, play: formValidations.options.oldInput, title: 'Edit play' });
+        return;
     }
 
     if (req.body.isPublic) {
