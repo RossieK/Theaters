@@ -13,8 +13,13 @@ function getPublic() {
     return Play.find({ isPublic: true }).lean();
 }
 
+function getOne(id) {
+    return Play.findOne({ _id: id }).lean();
+}
+
 module.exports = {
     createPlay,
     getAll,
-    getPublic
+    getPublic,
+    getOne
 }

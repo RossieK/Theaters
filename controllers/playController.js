@@ -27,4 +27,15 @@ router.post('/create', isLogged, (req, res) => {
         });
 });
 
+router.get('/:id/details', (req, res) => {
+    playService.getOne(req.params.id)
+        .then(play => {
+            res.render('details', { title: 'Details page', play });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json('Something went wrong on our side. We\'re sorry!');
+        });
+})
+
 module.exports = router;
