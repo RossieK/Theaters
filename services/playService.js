@@ -9,7 +9,12 @@ function getAll() {
     return Play.find().lean();
 }
 
+function getPublic() {
+    return Play.find({ isPublic: true }).lean();
+}
+
 module.exports = {
     createPlay,
-    getAll
+    getAll,
+    getPublic
 }
