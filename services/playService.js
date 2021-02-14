@@ -5,6 +5,11 @@ function createPlay(data, creator) {
     return play.save();
 }
 
+function getAll() {
+    return Play.find().lean();
+}
+
 module.exports = {
-    createPlay
+    createPlay,
+    getAll
 }
