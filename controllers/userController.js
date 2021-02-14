@@ -3,14 +3,16 @@ const userService = require('../services/userService');
 const { cookie_name } = require('../config/config');
 const registerValidator = require('../middlewares/userMiddlewareValidator');
 const formValidator = require('../middlewares/formValidator');
+const isGuest = require('../middlewares/isGuest');
+const isLogged = require('../middlewares/isLogged');
 
 const router = Router();
 
-router.get('/register', (req, res) => {
+router.get('/register', isGuest, (req, res) => {
     res.render('register', { title: 'Register page' });
 });
 
-router.post('/register', registerValidator, (req, res) => {
+router.post('/register', isGuest, registerValidator, (req, res) => {
 
     const formValidations = formValidator(req);
 
@@ -32,11 +34,11 @@ router.post('/register', registerValidator, (req, res) => {
         });
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', isGuest, (req, res) => {
     res.render('login', { title: 'Login page' });
 });
 
-router.post('/login', async(req, res) => {
+router.post('/login', isGuest, async(req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -48,7 +50,7 @@ router.post('/login', async(req, res) => {
     }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', isLogged, (req, res) => {
     res.clearCookie(cookie_name);
     res.redirect('/user/login');
 });
