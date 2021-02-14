@@ -27,7 +27,7 @@ router.post('/create', isLogged, (req, res) => {
         });
 });
 
-router.get('/:id/details', (req, res) => {
+router.get('/:id/details', isLogged, (req, res) => {
     playService.getOne(req.params.id)
         .then(play => {
             let isCreator = false;
@@ -48,6 +48,15 @@ router.get('/:id/details', (req, res) => {
             console.error(err);
             res.status(500).json('Something went wrong on our side. We\'re sorry!');
         });
-})
+});
+
+router.get('/:id/like', isLogged, (req, res) => {
+    playService.likeOne(req.params.id, req.user._id)
+        .then(() => res.redirect(`/plays/${req.params.id}/details`))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json('Something went wrong on our side. We\'re sorry!');
+        });
+});
 
 module.exports = router;

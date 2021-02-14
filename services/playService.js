@@ -17,9 +17,16 @@ function getOne(id) {
     return Play.findOne({ _id: id }).populate('creator').populate('usersLiked').lean();
 }
 
+async function likeOne(id, user) {
+    let play = await Play.findOne({ _id: id });
+    play.usersLiked.push(user);
+    return Play.updateOne({ _id: id }, { usersLiked: play.usersLiked });
+}
+
 module.exports = {
     createPlay,
     getAll,
     getPublic,
-    getOne
+    getOne,
+    likeOne
 }
