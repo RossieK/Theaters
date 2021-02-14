@@ -31,6 +31,10 @@ function updateOne(id, data) {
     return Play.updateOne({ _id: id }, {...data });
 }
 
+function deleteOne(id) {
+    return Play.deleteOne({ _id: id });
+}
+
 module.exports = {
     createPlay,
     getAll,
@@ -38,5 +42,6 @@ module.exports = {
     getOne,
     getOneWithoutDetails,
     likeOne,
-    updateOne
+    updateOne,
+    deleteOne
 }

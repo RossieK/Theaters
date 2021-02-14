@@ -102,4 +102,15 @@ router.post('/:id/edit', isLogged, playMiddlewareValidator, (req, res) => {
         });
 });
 
+router.get('/:id/delete', isLogged, (req, res) => {
+    playService.deleteOne(req.params.id)
+        .then(() => {
+            res.redirect('/');
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json('Something went wrong on our side. We\'re sorry!');
+        });
+});
+
 module.exports = router;
