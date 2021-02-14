@@ -14,7 +14,7 @@ function getPublic() {
 }
 
 function getOne(id) {
-    return Play.findOne({ _id: id }).lean();
+    return Play.findOne({ _id: id }).populate('creator').populate('usersLiked').lean();
 }
 
 module.exports = {

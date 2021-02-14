@@ -30,7 +30,19 @@ router.post('/create', isLogged, (req, res) => {
 router.get('/:id/details', (req, res) => {
     playService.getOne(req.params.id)
         .then(play => {
-            res.render('details', { title: 'Details page', play });
+            let isCreator = false;
+            if (play.creator.username == req.user.username) {
+                isCreator = true;
+            }
+
+            let hasLiked = false;
+            play.usersLiked.forEach(like => {
+                if (like.username == req.user.username) {
+                    hasLiked = true;
+                }
+            });
+
+            res.render('details', { title: 'Details page', play, isCreator, hasLiked });
         })
         .catch(err => {
             console.error(err);

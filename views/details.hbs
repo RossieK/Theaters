@@ -11,10 +11,16 @@
         <h3>Theater Description</h3>
         <p>{{play.description}}</p>
         <div class="buttons">
-            <a class="btn delete" href="">Delete</a>
-            <a class="btn edit" href="">Edit</a>
+            {{#if isCreator}}
+            <a class="btn delete" href="plays/{{play.id}}/delete">Delete</a>
+            <a class="btn edit" href="plays/{{play.id}}/edit">Edit</a>
+            {{else}}
+            {{#if hasLiked}}
             <span class="liked">You have already liked this play!</span>
-            <a class="btn like" href="">Like</a>
+            {{else}}
+            <a class="btn like" href="plays/{{play.id}}/like">Like</a>
+            {{/if}}
+            {{/if}}
         </div>
     </section>
 </div>
