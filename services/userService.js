@@ -41,8 +41,13 @@ function loginUponRegistration(user) {
     return token;
 }
 
+function getOne(id) {
+    return User.findOne({ _id: id }, { username: 1 }).lean();
+}
+
 module.exports = {
     register,
     login,
-    loginUponRegistration
+    loginUponRegistration,
+    getOne
 }
